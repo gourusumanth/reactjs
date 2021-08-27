@@ -1,61 +1,39 @@
-import React, { Component } from "react";
-import Input from './common/input';
+import React from "react";
+import Joi from 'joi-browser';
+import Form from "./common/form";
 
-class LoginForm extends Component {
+class LoginForm extends Form {
 
     state = {
-        account: { username: "", password: "" },
+        data: { username: "", password: "" },
         errors: {
             
         } 
     }
 
-    validate = () => {
-
-        const errors = {};
-
-        const { account } = this.state;
-        if(account.username.trim() === '') 
-            errors.username = 'Username is required.';
-
-        if(account.password.trim() === '') 
-            errors.password = 'Password is required.';
-
-
-        return Object.keys(errors).length === 0 ? null : errors;
+    schema = {
+        username: Joi.string().required().label('Username'),
+        password: Joi.string().required().label('Password')
     }
 
-    handleChange = ({currentTarget:input}) => {
-        const account = {...this.state.account};
-        account[input.name] = input.value;
-        this.setState({account});
-    }
 
-    handleSubmit = e => {
-        e.preventDefault();
-
-        const errors  = this.validate();
-        this.setState({ errors: errors | {} })
-
-        if(errors) return;
-
+    doSubmit = () => {
         //call the server
         console.log("submitted");
-    };
+    }
 
   render() {
 
-     const { account, errors } = this.state
 
     return (
       <div>
         <h1> Login Form </h1>
         <form onSubmit={this.handleSubmit}>
         
-            <Input name="username" label="UserName" value={account.username} onChange={this.handleChange} error={errors.username}/>
-            <Input name="password" label="Password" value={account.password} onChange={this.handleChange} error={errors.password}/>
+            {this.renderInput("username", "Username")}
+            {this.renderInput("password", "Password", "password")}
+            {this.renderButton("Submit")}
          
-          <button className="btn btn-primary">Login</button>
         </form>
       </div>
     );

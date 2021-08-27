@@ -8,6 +8,7 @@ import Rentals from "./components/rentals";
 import NotFound from './components/notFound';
 import MovieForm from './components/movieform';
 import LoginForm from './components/loginform';
+import RegisterForm from './components/registerform';
 
 class App extends Component {
   render() {
@@ -18,6 +19,8 @@ class App extends Component {
           <Switch>
 
             <Route path="/login" component={LoginForm}/>
+            <Route path="/register" component={RegisterForm}/>
+            {/* <Route path="/movies/new" component={MovieForm}/> */}
             <Route path="/movies/:id" render = {(props) => <MovieForm {...props}/>}/>
             <Route path="/movies" component={Movies}/>
             <Route path="/customers" component={Customers}/>
